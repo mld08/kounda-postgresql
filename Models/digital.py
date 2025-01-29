@@ -1,4 +1,6 @@
 import mysql.connector
+import psycopg2
+
 
 class Digital:
     def __init__(self, id, date_const, personnel_id, type_libelle, nom_client, prenom_client, phone_client, email_client, items, quantite, prix_unit, montant_ht, tva, montant_ttc, modalite_paiement, type_paiement, observations):
@@ -23,11 +25,11 @@ class Digital:
     def save(self, cursor):
         try:
             sql = """
-            INSERT INTO digital (id, date_const, personnel_id, type_libelle, nom_client, prenom_client, phone_client, email_client, items, quantite, prix_unit, montant_ht, tva, montant_ttc, modalite_paiement, type_paiement, observations) VALUES 
-            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO digital (date_const, personnel_id, type_libelle, nom_client, prenom_client, phone_client, email_client, items, quantite, prix_unit, montant_ht, tva, montant_ttc, modalite_paiement, type_paiement, observations) VALUES 
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(sql, (self.id, self.date_const, self.personnel_id, self.type_libelle, self.nom_client, self.prenom_client, self.phone_client, self.email_client, self.items, self.quantite, self.prix_unit, self.montant_ht, self.tva, self.montant_ttc, self.modalite_paiement, self.type_paiement, self.observations))
-        except mysql.connector.Error as e:
+            cursor.execute(sql, (self.date_const, self.personnel_id, self.type_libelle, self.nom_client, self.prenom_client, self.phone_client, self.email_client, self.items, self.quantite, self.prix_unit, self.montant_ht, self.tva, self.montant_ttc, self.modalite_paiement, self.type_paiement, self.observations))
+        except psycopg2.Error as e:
             print(f"Erreur lors de l'insertion de Trading dans la bd: {e}")
 
     def update(self, cursor):
