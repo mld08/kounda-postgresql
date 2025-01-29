@@ -660,7 +660,7 @@ def update_personnels():
 
         # Connexion à la base de données
         conn, cursor = init_db()
-        cursor = conn.cursor(dictionary=True) # type: ignore
+        cursor = conn.cursor() # type: ignore
 
         # Récupération de l'utilisateur existant
         cursor.execute("SELECT * FROM personnels WHERE id=%s", (id_data,))

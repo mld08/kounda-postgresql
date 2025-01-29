@@ -1,6 +1,6 @@
 import mysql.connector
+import psycopg2
 
-import mysql.connector
 
 class Materiel:
     def __init__(self, id, nom_produit, fournisseur, date_sortie, date_reception, quantite, prix_unit, montant_ht, tva, montant_ttc, observations):
@@ -19,11 +19,11 @@ class Materiel:
     def save(self, cursor):
         try:
             sql = """
-            INSERT INTO materiels (id, nom_produit, fournisseur, date_sortie, date_reception, quantite, prix_unit, montant_ht, tva, montant_ttc, observations) VALUES 
-            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO materiels (nom_produit, fournisseur, date_sortie, date_reception, quantite, prix_unit, montant_ht, tva, montant_ttc, observations) VALUES 
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(sql, (self.id, self.nom_produit, self.fournisseur, self.date_sortie, self.date_reception, self.quantite, self.prix_unit, self.montant_ht, self.tva, self.montant_ttc, self.observations))
-        except mysql.connector.Error as e:
+            cursor.execute(sql, (self.nom_produit, self.fournisseur, self.date_sortie, self.date_reception, self.quantite, self.prix_unit, self.montant_ht, self.tva, self.montant_ttc, self.observations))
+        except psycopg2.Error as e:
             print(f"Erreur lors de l'insertion de Trading dans la bd: {e}")
 
     def update(self, cursor):
