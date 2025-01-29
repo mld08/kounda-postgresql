@@ -660,7 +660,7 @@ def update_personnels():
 
         # Connexion à la base de données
         conn, cursor = init_db()
-        cursor = conn.cursor() # type: ignore
+        cursor = conn.cursor()
 
         # Récupération de l'utilisateur existant
         cursor.execute("SELECT * FROM personnels WHERE id=%s", (id_data,))
@@ -671,7 +671,7 @@ def update_personnels():
             return redirect(url_for('personnels'))
 
         # Obtenir l'ancien mot de passe
-        existing_password = data_personnel_id['password'] # type: ignore
+        existing_password = data_personnel_id[11]
 
         # Gestion du mot de passe (conserver l'ancien si le champ est vide)
         password = hash_password(password_form) if password_form else existing_password
