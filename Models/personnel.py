@@ -1,4 +1,5 @@
 import mysql.connector
+import psycopg2
 
 class Personnel:
     def __init__(self, id, nom, prenom, username, email, phone, departement, date_arrivee, date_depart, ecole, convention, password, role, observations):
@@ -18,15 +19,23 @@ class Personnel:
         self.observations = observations
 
 
+
     def save(self, cursor):
         try:
             sql = """
-            INSERT INTO personnels (id, nom, prenom, username, email, phone, departement, date_arrivee, date_depart, ecole, convention, password, role, observations) VALUES 
-            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO personnels (nom, prenom, username, email, phone, departement, date_arrivee, date_depart, ecole, convention, password, role, observations) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id;
             """
-            cursor.execute(sql, (self.id, self.nom, self.prenom, self.username, self.email, self.phone, self.departement, self.date_arrivee, self.date_depart, self.ecole, self.convention, self.password, self.role, self.observations))
-        except mysql.connector.Error as e:
-            print(f"Erreur lors de l'insertion de Personnel dans la bd: {e}")
+            cursor.execute(sql, (self.nom, self.prenom, self.username, self.email, self.phone, self.departement, self.date_arrivee, self.date_depart, self.ecole, self.convention, self.password, self.role, self.observations))
+            
+            # Récupérer l'ID généré
+            new_id = cursor.fetchone()[0]
+            print(f"Personnel inséré avec succès, ID: {new_id}")
+        
+        except psycopg2.Error as e:
+            print(f"Erreur lors de l'insertion de Personnel dans la BD: {e}")
+
 
     def update(self, cursor):
         try:
